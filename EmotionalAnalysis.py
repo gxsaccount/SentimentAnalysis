@@ -60,7 +60,12 @@ def create_model():
     sequence_input = Input(shape=(maxlen, ))
     x = Embedding(max_features, embed_size, weights=[embedding_matrix],trainable = False)(sequence_input)
     x = SpatialDropout1D(0.2)(x)
+    #(input_dim, output_dim=128, init='glorot_uniform', inner_init='orthogonal', activation='sigmoid',
+    #inner_activation='hard_sigmoid', weights=None, truncate_gradient=-1, return_sequences=False)
     x = Bidirectional(GRU(128,return_sequences=True,dropout=0.1,recurrent_dropout=0.1))(x)
+    #nb_filter, filter_length, init='glorot_uniform', activation=None, weights=None, border_mode='valid', 
+    #subsample_length=1, W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, 
+    #b_constraint=None, bias=True, input_dim=None, input_length=None
     x=Conv1D(64,kernel_size=3,padding="valid",kernel_initializer="glorot_uniform")(x)
 
     avg_pool = GlobalAveragePooling1D()(x)
